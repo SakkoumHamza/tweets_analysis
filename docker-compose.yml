@@ -19,27 +19,27 @@ services:
       KAFKA_ADVERTISED_LISTENERS: PLAINTEXT://localhost:9092
       KAFKA_OFFSETS_TOPIC_REPLICATION_FACTOR: 1
   
-  # elasticsearch:
-  #   image: docker.elastic.co/elasticsearch/elasticsearch:8.9.0
-  #   container_name: elasticsearch
-  #   environment:
-  #     - discovery.type=single-node
-  #     - ES_JAVA_OPTS=-Xms512m -Xmx512m
-  #     - xpack.security.enabled=false
-  #   ports:
-  #     - "9200:9200"    # Port API REST Elasticsearch
-  #     - "9300:9300"    # Port cluster interne (utile si tu étends)
-  #   volumes:
-  #     - esdata:/usr/share/elasticsearch/data
+  elasticsearch:
+    image: docker.elastic.co/elasticsearch/elasticsearch:8.9.0
+    container_name: elasticsearch
+    environment:
+      - discovery.type=single-node
+      - ES_JAVA_OPTS=-Xms512m -Xmx512m
+      - xpack.security.enabled=false
+    ports:
+      - "9200:9200"    # Port API REST Elaticsearch
+      - "9300:9300"    # Port cluster interne (utile si tu étends)
+    volumes:
+      - esdata:/usr/share/elasticsearch/data
 
-  # kibana:
-  #   image: docker.elastic.co/kibana/kibana:8.9.0
-  #   container_name: kibana
-  #   ports:
-  #     - "5601:5601"    # Port pour accéder à Kibana dans le navigateur
-  #   environment:
-  #     ELASTICSEARCH_HOSTS: "http://elasticsearch:9200"
-  #   depends_on:
-  #     - elasticsearch
+  kibana:
+    image: docker.elastic.co/kibana/kibana:8.9.0
+    container_name: kibana
+    ports:
+      - "5601:5601"    # Port pour accéder à Kibana dans le navigateur
+    environment:
+      ELASTICSEARCH_HOSTS: "http://elasticsearch:9200"
+    depends_on:
+      - elasticsearch
 volumes:
   esdata:
